@@ -42,6 +42,7 @@ router.post(`/`, async (request, response) => {
 
 //person can send his email and password to the server + jwt
 router.post("/login", async (request, response) => {
+  const secret = process.env.secret;
   const user = await User.findOne({
     email: request.body.email,
   });
@@ -55,7 +56,7 @@ router.post("/login", async (request, response) => {
       {
         userId: user._id,
       },
-      "secret"
+      secret
     );
     response.status(200).send({ user: user.email, token: token });
   } else {
